@@ -10,7 +10,7 @@
 
 > A fully self-built Security Operations Center lab that generates real attacker telemetry, ingests it into a SIEM, and turns it into detections, triage workflows, and written incident reports — the same loop an entry-level SOC Analyst runs in production.
 
-**Author:** Paramananda Gaigaria — B.Tech CSE (Final Year), aspiring SOC Analyst / VAPT professional
+**Author:** Paramananda Gaigaria — B.Tech CSE , aspiring SOC Analyst
 🔗 [LinkedIn](#) · [TryHackMe](#) · [Resume](#)
 
 ---
