@@ -1,0 +1,70 @@
+<!--
+  Custom Wazuh detection rules for the SOC Home Lab.
+  Place this file at /var/ossec/etc/rules/local_rules.xml on the manager
+  and restart wazuh-manager to load it.
+
+  Rule ID range 100100-100199 is reserved for local/custom rules per Wazuh convention.
+-->
+<group name="local,soc_home_lab,">
+
+  <!-- T1046 - Network Service Discovery (Nmap scan against the victim) -->
+  <rule id="100101" level="7">
+    <if_group>sysmon_event3</if_group>
+    <field name="win.eventdata.destinationPort" negate="no">^(21|22|23|80|139|443|445|3389)$</field>
+    <description>Possible network service scan detected on common ports (T1046)</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+  <!-- T1110 - Brute Force: repeated Windows failed logons from same source -->
+  <rule id="100102" level="10" frequency="8" timeframe="120">
+    <if_matched_sid>60122</if_matched_sid>
+    <same_source_ip />
+    <description>Possible brute force attack: 8+ failed Windows logons from same source in 2 minutes (T1110)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- T1059.001 - Suspicious/encoded PowerShell execution -->
+  <rule id="100103" level="12">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" negate="no" type="pcre2">(?i)(-enc|-encodedcommand|-nop\s+-w\s+hidden|downloadstring|invoke-expression)</field>
+    <description>Encoded or obfuscated PowerShell execution detected (T1059.001)</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+
+  <!-- T1003 - Credential Dumping: process accessing lsass.exe memory -->
+  <rule id="100104" level="13">
+    <if_group>sysmon_event10</if_group>
+    <field name="win.eventdata.targetImage" negate="no" type="pcre2">(?i)lsass\.exe$</field>
+    <description>Process requested access to LSASS memory — possible credential dumping (T1003)</description>
+    <mitre>
+      <id>T1003</id>
+    </mitre>
+  </rule>
+
+  <!-- T1053.005 - Scheduled Task persistence -->
+  <rule id="100105" level="9">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.commandLine" negate="no" type="pcre2">(?i)schtasks(\.exe)?\s+/create</field>
+    <description>New scheduled task created via schtasks — possible persistence mechanism (T1053.005)</description>
+    <mitre>
+      <id>T1053.005</id>
+    </mitre>
+  </rule>
+
+  <!-- T1071 - Suspicious DNS query pattern (possible C2 beacon) -->
+  <rule id="100106" level="9">
+    <if_group>sysmon_event22</if_group>
+    <field name="win.eventdata.queryName" negate="no" type="pcre2">(?i)\.(xyz|top|tk|club)$</field>
+    <description>DNS query to a low-reputation TLD commonly used for C2 infrastructure (T1071)</description>
+    <mitre>
+      <id>T1071</id>
+    </mitre>
+  </rule>
+
+</group>

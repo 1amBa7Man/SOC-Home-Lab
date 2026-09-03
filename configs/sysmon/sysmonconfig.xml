@@ -1,0 +1,58 @@
+<!--
+  Starter Sysmon configuration for the SOC Home Lab.
+  Based on the widely-used SwiftOnSecurity baseline philosophy: log broadly on
+  high-value event types, exclude known-noisy/benign patterns, keep everything
+  else. Tune this as you learn which processes are noisy in YOUR lab.
+
+  Reference full community config: https://github.com/SwiftOnSecurity/sysmon-config
+-->
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+
+    <!-- Event ID 1: Process creation — the single most useful event type -->
+    <ProcessCreate onmatch="exclude">
+      <Image condition="end with">MsMpEng.exe</Image>
+      <Image condition="end with">SearchIndexer.exe</Image>
+    </ProcessCreate>
+
+    <!-- Event ID 3: Network connection -->
+    <NetworkConnect onmatch="exclude">
+      <Image condition="end with">chrome.exe</Image>
+      <DestinationPort condition="is">5355</DestinationPort>
+    </NetworkConnect>
+
+    <!-- Event ID 7: Image/DLL loaded -->
+    <ImageLoad onmatch="include">
+      <Signed condition="is">false</Signed>
+    </ImageLoad>
+
+    <!-- Event ID 8: CreateRemoteThread (process injection) -->
+    <CreateRemoteThread onmatch="exclude">
+      <SourceImage condition="end with">chrome.exe</SourceImage>
+    </CreateRemoteThread>
+
+    <!-- Event ID 10: ProcessAccess — critical for catching lsass.exe credential dumping -->
+    <ProcessAccess onmatch="include">
+      <TargetImage condition="end with">lsass.exe</TargetImage>
+    </ProcessAccess>
+
+    <!-- Event ID 11: File creation in sensitive locations -->
+    <FileCreate onmatch="include">
+      <TargetFilename condition="contains">\Startup\</TargetFilename>
+      <TargetFilename condition="contains">AppData\Roaming</TargetFilename>
+    </FileCreate>
+
+    <!-- Event ID 12/13/14: Registry — persistence via Run keys -->
+    <RegistryEvent onmatch="include">
+      <TargetObject condition="contains">\CurrentVersion\Run</TargetObject>
+      <TargetObject condition="contains">\CurrentVersion\RunOnce</TargetObject>
+    </RegistryEvent>
+
+    <!-- Event ID 22: DNS query — C2 domain resolution -->
+    <DnsQuery onmatch="exclude">
+      <QueryName condition="end with">.microsoft.com</QueryName>
+      <QueryName condition="end with">.windowsupdate.com</QueryName>
+    </DnsQuery>
+
+  </EventFiltering>
+</Sysmon>

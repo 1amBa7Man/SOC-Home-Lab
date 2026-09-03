@@ -1,0 +1,16 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+
+# Never commit real lab secrets or credential dumps
+*.dmp
+*.pcap
+credentials*.txt
+secrets.env
+*.key
+*.pem
+
+# Large raw log exports (keep only curated excerpts in docs/reports)
+*.log
+/logs/
