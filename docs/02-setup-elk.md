@@ -4,7 +4,7 @@ The Wazuh all-in-one installer already ships an Elasticsearch (indexer) + Kibana
 
 ## 1. Access the dashboard
 
-Browse to `https://192.168.56.30` and log in with the admin credentials generated during install.
+Browse to `https://192.168.211.130` and log in with the admin credentials generated during install.
 
 ## 2. Confirm the index pattern
 
