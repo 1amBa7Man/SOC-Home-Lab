@@ -4,9 +4,9 @@
 
 | VM | Role | OS | Specs (min) | Network |
 |---|---|---|---|---|
-| Attacker | Offensive tooling | Kali Linux 2026.x | 2 vCPU / 4GB RAM / 40GB | `192.168.56.10` |
-| Victim | Endpoint under monitoring | Windows 10 (22H2) | 2 vCPU / 4GB RAM / 60GB | `192.168.56.20` |
-| SOC-Server | Wazuh Manager + ELK | Ubuntu Server 22.04/24.04 LTS | 4 vCPU / 8GB RAM / 80GB | `192.168.56.30` |
+| Attacker | Offensive tooling | Kali Linux 2026.3 | 6 vCPU / 4.9GB RAM / 50GB | `192.168.211.128` |
+| Victim | Endpoint under monitoring | Windows 10 (22H2) | 4 vCPU / 4GB RAM / 50GB | `192.168.211.129` |
+| SOC-Server | Wazuh Manager + ELK | Ubuntu Server 22.04.4 LTS | 4 vCPU / 5.3GB RAM / 62GB | `192.168.211.130` |
 
 All three run on an isolated **host-only / internal network** in VirtualBox or VMware — never bridged to your home LAN. This keeps the brute-force/exploit traffic contained.
 
