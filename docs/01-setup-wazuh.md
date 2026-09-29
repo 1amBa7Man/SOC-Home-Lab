@@ -20,7 +20,7 @@ sudo systemctl status wazuh-manager
 Download the latest Wazuh agent MSI from the Wazuh downloads page, then install via PowerShell (as Administrator):
 
 ```powershell
-msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER='192.168.56.30' WAZUH_AGENT_NAME='WIN10-VICTIM'
+msiexec.exe /i wazuh-agent.msi /q WAZUH_MANAGER='192.168.56.30' WAZUH_AGENT_NAME='Win-Mal-Test'
 NET START WazuhSvc
 ```
 
@@ -32,7 +32,7 @@ On the manager:
 sudo /var/ossec/bin/agent_control -l
 ```
 
-You should see `WIN10-VICTIM` listed as **Active**. Screenshot this for `screenshots/wazuh-dashboard/`.
+You should see `Win-Mal-Test` listed as **Active**. Screenshot this for `screenshots/wazuh-dashboard/`.
 
 ## 4. Point Wazuh at Sysmon logs
 
