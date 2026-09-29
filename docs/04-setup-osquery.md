@@ -4,7 +4,7 @@ osquery complements Sysmon: Sysmon tells you what *just happened* (event-driven)
 
 ## 1. Install
 
-Download and install `osquery-<version>.msi` from osquery.io.
+Download and install `osquery-5.23.1.msi` from osquery.io.
 
 ## 2. Try it interactively
 
